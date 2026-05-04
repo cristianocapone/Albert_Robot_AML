@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Dog Robot - MuJoCo MJCF
+  ========================
+  Corpo  : 14cm x 11cm x 2cm
+  Upper leg : ~5cm
+  Lower leg : ~5cm
+  2 DOF per gamba (hip + knee) x 4 zampe = 8 joints
+
+  Struttura file:
+    dog.xml          ← questo file
+    meshes/
+      trunk.stl
+      upper_leg.stl
+      lower_leg.stl
+-->
+
+<mujoco model="dog">
+
+  <!-- ═══════════════════════════════════════
+       OPZIONI SIMULAZIONE
+  ═══════════════════════════════════════ -->
+  <option gravity="0 0 -9.81"
+          timestep="0.002"
+          integrator="RK4"/>
+
+  <compiler angle="radian"
+            meshdir="meshes/"
+            autolimits="true"/>
+
+  <visual>
+    <global offwidth="1920" offheight="1080"/>
+    <quality shadowsize="8192"/>
+    <map shadowscale="0.6" shadowclip="2" znear="0.001"/>
+  </visual>
+
+  <!-- ═══════════════════════════════════════
+       PARAMETRI DI CONTATTO GLOBALI
+  ═══════════════════════════════════════ -->
+  <default>
+    <joint damping="0.5" armature="0.01"/>
+    <geom condim="3" friction="0.8 0.02 0.001"/>
+    <motor ctrlrange="-20 20" ctrllimited="true"/>
+  </default>
+
+  <!-- ═══════════════════════════════════════
+       ASSET: MESH + TEXTURE + MATERIALI
+  ═══════════════════════════════════════ -->
+  <asset>
+
+    <!-- Skybox -->
+    <texture name="skybox" type="skybox" builtin="gradient"
+             rgb1="0.5 0.7 0.9" rgb2="0.1 0.1 0.2"
+             width="512" height="512"/>
+
+    <!-- Texture pavimento -->
+    <texture name="grid" type="2d" builtin="checker"
+             rgb1="0.85 0.85 0.85" rgb2="0.65 0.65 0.65"
+             width="512" height="512" mark="none"/>
+    <material name="floor_mat" texture="grid"
+              texrepeat="6 6" reflectance="0.15"/>
+
+    <!-- Materiali robot -->
+    <material name="body_mat"  rgba="0.15 0.15 0.15 1"
+              reflectance="0.3" shininess="0.4"/>
+    <material name="leg_mat"   rgba="0.9 0.5 0.1 1"
+              reflectance="0.2" shininess="0.3"/>
+    <material name="foot_mat"  rgba="0.2 0.2 0.2 0"
+              reflectance="0.1"/>
+
+    <!-- Mesh STL da FreeCAD (mm → metri, scala 0.001) -->
+    <mesh name="trunk"     file="trunk.stl"     scale="0.001 0.001 0.001"/>
+    <mesh name="upper_leg" file="upper_leg.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="lower_leg" file="lower_leg.stl" scale="0.001 0.001 0.001"/>
+
+  </asset>
+
+  <!-- ═══════════════════════════════════════
+       SCENA E ROBOT
+  ═══════════════════════════════════════ -->
+  <worldbody>
+
+    <!-- Luci -->
+    <light name="sun"  pos="1 1 4"   dir="-0.2 -0.2 -1"
+           diffuse="0.9 0.9 0.9" specular="0.4 0.4 0.4"
+           castshadow="true"/>
+    <light name="fill" pos="-2 -2 2" dir="0.4 0.4 -1"
+           diffuse="0.3 0.3 0.35" castshadow="false"/>
+
+    <!-- Pavimento -->
+    <geom name="floor" type="plane" size="10 10 0.1"
+          material="floor_mat" condim="3"/>
+
+    <!-- Obstacles — mocap bodies moved each episode via mocap_pos -->
+    <body name="obs0" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs1" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs2" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs3" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs4" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs5" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs6" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs7" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs8" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs9" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs10" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs11" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs12" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs13" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs14" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs15" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs16" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs17" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs18" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs19" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs20" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs21" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs22" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs23" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs24" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs25" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs26" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs27" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs28" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+    <body name="obs29" mocap="true" pos="100 0 0.25">
+      <geom type="box" size="0.02 0.20 0.25" rgba="0.85 0.2 0.1 1" condim="3"/>
+    </body>
+
+    <!-- Goal marker (green sphere) -->
+    <body name="goal_marker" mocap="true" pos="100 0 0.05">
+      <geom type="sphere" size="0.12" rgba="0.1 0.95 0.1 0.8" condim="1"/>
+    </body>
+
+    <!-- ──────────────────────────────────
+         CAMERE
+         trunk è a z=0.13 → il robot è alto circa 12cm da terra
+    ────────────────────────────────── -->
+    <camera name="side_cam"
+            pos="0.6 -0.6 0.25"
+            xyaxes="0.7 0.7 0 -0.15 0.15 1"/>
+    <camera name="follow_cam"
+            pos="0 -0.5 0.3"
+            xyaxes="1 0 0 0 0.4 1"
+            mode="trackcom"/>
+    <camera name="front_cam"
+            pos="-0.5 0 0.2"
+            xyaxes="0 -1 0 0.2 0 1"/>
+    <camera name="top_cam"
+            pos="0 0 0.7"
+            xyaxes="1 0 0 0 1 0"/>
+
+    <!-- ══════════════════════════════════
+         CORPO (TRUNK)
+         Centro a z=0.13m dal suolo
+         (upper 0.05 + lower 0.05 + piede 0.015 = 0.115 → ~0.13 con margine)
+    ══════════════════════════════════ -->
+    <body name="trunk" pos="0 0 0.10">
+
+      <!-- Giunto libero: il robot può muoversi nello spazio -->
+      <freejoint name="floating_base"/>
+
+      <!-- Geometria visiva (mesh STL) -->
+      <geom name="trunk_visual"
+            type="mesh" mesh="trunk"
+            material="body_mat"/>
+
+      <!-- Geometria collisione (box approssimata)
+           14cm x 11cm x 2cm = 0.14 x 0.11 x 0.02 -->
+      <geom name="trunk_col"
+            type="box"
+            size="0.07 0.055 0.01"
+            rgba="0.15 0.15 0.15 0.0"/>
+
+      <!-- IMU site (per sensori) -->
+      <site name="imu" pos="0 0 0" size="0.01"/>
+
+      <!-- ══════════════════════════
+           ZAMPA FRONT LEFT (FL)
+           Hip: x=+0.06, y=+0.055
+      ══════════════════════════ -->
+      <body name="FL_upper_leg" pos="0.055 0.055 0">
+        <joint name="FL_hip" type="hinge"
+               axis="0 1 0"
+               range="-0.398 0.998"
+               damping="0.5"/>
+        <geom type="mesh" mesh="upper_leg" material="leg_mat"/>
+        <geom type="capsule" size="0.012" fromto="0 0 0  0 0 -0.03"
+              group="3" rgba="0.9 0.5 0.1 0.0"/>
+
+        <body name="FL_lower_leg" pos="0 0.008 -0.03">
+          <joint name="FL_knee" type="hinge"
+                 axis="0 1 0"
+                 range="-1.498 -0.102"
+                 damping="0.5"/>
+          <geom type="mesh" mesh="lower_leg" material="leg_mat"/>
+          <geom type="capsule" size="0.010" fromto="0 0 0  0 0 -0.04"
+                group="3" rgba="0.9 0.5 0.1 0.0"/>
+          <site name="FL_foot_site" pos="0 0 -0.042" size="0.005"/>
+        </body>
+      </body>
+
+      <!-- ══════════════════════════
+           ZAMPA FRONT RIGHT (FR)
+           Hip: x=+0.06, y=-0.055
+      ══════════════════════════ -->
+      <body name="FR_upper_leg" pos="0.055 -0.055 0">
+        <joint name="FR_hip" type="hinge"
+               axis="0 1 0"
+               range="-0.398 0.998"
+               damping="0.5"/>
+        <geom type="mesh" mesh="upper_leg" material="leg_mat"/>
+        <geom type="capsule" size="0.012" fromto="0 0 0  0 0 -0.03"
+              group="3" rgba="0.9 0.5 0.1 0.0"/>
+
+        <body name="FR_lower_leg" pos="0 -0.008 -0.03">
+          <joint name="FR_knee" type="hinge"
+                 axis="0 1 0"
+                 range="-1.498 -0.102"
+                 damping="0.5"/>
+          <geom type="mesh" mesh="lower_leg" material="leg_mat"/>
+          <geom type="capsule" size="0.010" fromto="0 0 0  0 0 -0.04"
+                group="3" rgba="0.9 0.5 0.1 0.0"/>
+          <site name="FR_foot_site" pos="0 0 -0.042" size="0.005"/>
+        </body>
+      </body>
+
+      <!-- ══════════════════════════
+           ZAMPA REAR LEFT (RL)
+           Hip: x=-0.06, y=+0.055
+      ══════════════════════════ -->
+      <body name="RL_upper_leg" pos="-0.055 0.055 0">
+        <joint name="RL_hip" type="hinge"
+               axis="0 1 0"
+               range="-0.398 0.998"
+               damping="0.5"/>
+        <geom type="mesh" mesh="upper_leg" material="leg_mat"/>
+        <geom type="capsule" size="0.012" fromto="0 0 0  0 0 -0.03"
+              group="3" rgba="0.9 0.5 0.1 0.0"/>
+
+        <body name="RL_lower_leg" pos="0 0.008 -0.03">
+          <joint name="RL_knee" type="hinge"
+                 axis="0 1 0"
+                 range="-1.498 -0.102"
+                 damping="0.5"/>
+          <geom type="mesh" mesh="lower_leg" material="leg_mat"/>
+          <geom type="capsule" size="0.010" fromto="0 0 0  0 0 -0.04"
+                group="3" rgba="0.9 0.5 0.1 0.0"/>
+          <site name="RL_foot_site" pos="0 0 -0.042" size="0.005"/>
+        </body>
+      </body>
+
+      <!-- ══════════════════════════
+           ZAMPA REAR RIGHT (RR)
+           Hip: x=-0.06, y=-0.055
+      ══════════════════════════ -->
+      <body name="RR_upper_leg" pos="-0.055 -0.055 0">
+        <joint name="RR_hip" type="hinge"
+               axis="0 1 0"
+               range="-0.398 0.998"
+               damping="0.5"/>
+        <geom type="mesh" mesh="upper_leg" material="leg_mat"/>
+        <geom type="capsule" size="0.012" fromto="0 0 0  0 0 -0.03"
+              group="3" rgba="0.9 0.5 0.1 0.0"/>
+
+        <body name="RR_lower_leg" pos="0 -0.008 -0.03">
+          <joint name="RR_knee" type="hinge"
+                 axis="0 1 0"
+                 range="-1.498 -0.102"
+                 damping="0.5"/>
+          <geom type="mesh" mesh="lower_leg" material="leg_mat"/>
+          <geom type="capsule" size="0.010" fromto="0 0 0  0 0 -0.04"
+                group="3" rgba="0.9 0.5 0.1 0.0"/>
+          <site name="RR_foot_site" pos="0 0 -0.042" size="0.005"/>
+        </body>
+      </body>
+
+    </body><!-- fine trunk -->
+  </worldbody>
+
+  <!-- ═══════════════════════════════════════
+       ATTUATORI — Position Control (PD)
+       kp = guadagno proporzionale
+       damping sul joint = guadagno derivativo
+  ═══════════════════════════════════════ -->
+  <actuator>
+    <position name="FL_hip_act"  joint="FL_hip"  kp="60" ctrlrange="-0.398  0.998"/>
+    <position name="FL_knee_act" joint="FL_knee" kp="60" ctrlrange="-1.498 -0.102"/>
+    <position name="FR_hip_act"  joint="FR_hip"  kp="60" ctrlrange="-0.398  0.998"/>
+    <position name="FR_knee_act" joint="FR_knee" kp="60" ctrlrange="-1.498 -0.102"/>
+    <position name="RL_hip_act"  joint="RL_hip"  kp="60" ctrlrange="-0.398  0.998"/>
+    <position name="RL_knee_act" joint="RL_knee" kp="60" ctrlrange="-1.498 -0.102"/>
+    <position name="RR_hip_act"  joint="RR_hip"  kp="60" ctrlrange="-0.398  0.998"/>
+    <position name="RR_knee_act" joint="RR_knee" kp="60" ctrlrange="-1.498 -0.102"/>
+  </actuator>
+
+  <!-- ═══════════════════════════════════════
+       SENSORI
+  ═══════════════════════════════════════ -->
+  <sensor>
+    <!-- IMU sul corpo -->
+    <gyro         name="imu_gyro" site="imu"/>
+    <accelerometer name="imu_acc" site="imu"/>
+
+    <!-- Posizione e velocità joint -->
+    <jointpos name="FL_hip_pos"  joint="FL_hip"/>
+    <jointpos name="FL_knee_pos" joint="FL_knee"/>
+    <jointpos name="FR_hip_pos"  joint="FR_hip"/>
+    <jointpos name="FR_knee_pos" joint="FR_knee"/>
+    <jointpos name="RL_hip_pos"  joint="RL_hip"/>
+    <jointpos name="RL_knee_pos" joint="RL_knee"/>
+    <jointpos name="RR_hip_pos"  joint="RR_hip"/>
+    <jointpos name="RR_knee_pos" joint="RR_knee"/>
+
+    <jointvel name="FL_hip_vel"  joint="FL_hip"/>
+    <jointvel name="FL_knee_vel" joint="FL_knee"/>
+    <jointvel name="FR_hip_vel"  joint="FR_hip"/>
+    <jointvel name="FR_knee_vel" joint="FR_knee"/>
+    <jointvel name="RL_hip_vel"  joint="RL_hip"/>
+    <jointvel name="RL_knee_vel" joint="RL_knee"/>
+    <jointvel name="RR_hip_vel"  joint="RR_hip"/>
+    <jointvel name="RR_knee_vel" joint="RR_knee"/>
+
+    <!-- Forze ai piedi (contatto) -->
+    <touch name="FL_touch" site="FL_foot_site"/>
+    <touch name="FR_touch" site="FR_foot_site"/>
+    <touch name="RL_touch" site="RL_foot_site"/>
+    <touch name="RR_touch" site="RR_foot_site"/>
+  </sensor>
+
+</mujoco>

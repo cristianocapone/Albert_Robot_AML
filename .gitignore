@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.DS_Store
+models/
+movies/
+plots/
+trajectories/
+*.pth
+*.mp4
+*.npy
+*.log
+.ipynb_checkpoints/
