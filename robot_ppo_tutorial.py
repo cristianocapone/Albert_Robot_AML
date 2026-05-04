@@ -508,7 +508,7 @@ def run_episode(deterministic=False, render=False):
             cam.lookat[0] = mjdata.qpos[0]
             cam.lookat[1] = mjdata.qpos[1]
             # Camera follows from behind (third-person view).
-            cam.azimuth = (math.degrees(yaw) + 180) % 360
+            #cam.azimuth = #(math.degrees(yaw) + 180) % 360
             renderer.update_scene(mjdata, cam)
             frames.append(renderer.render().copy())
 
